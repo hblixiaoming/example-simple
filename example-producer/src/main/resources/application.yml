@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: example-producer
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka/
+
+
+server:
+  port: 8091
+
+
+
