@@ -9,15 +9,19 @@ import com.example.resp.TestResponse;
 import com.example.service.TestService;
 import com.example.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class TestServiceImpl implements TestService {
     @Autowired
     private UserInfoMapper userInfoMapper;
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     @Override
     public Result<TestResponse> hello(TestRequest request) {
@@ -30,6 +34,8 @@ public class TestServiceImpl implements TestService {
         if (!CollectionUtils.isEmpty(userInfos)) {
             outPut = JSON.toJSONString(userInfos.get(0));
         }
+        redisTemplate.opsForValue().set("test_key_" + request.getName(), outPut);
+        redisTemplate.expire("test_key_" + request.getName(), 60, TimeUnit.MINUTES);
         Result<TestResponse> result = new Result<TestResponse>();
         TestResponse response = new TestResponse();
         response.setOutput(outPut);
