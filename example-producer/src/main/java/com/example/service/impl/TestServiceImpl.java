@@ -9,7 +9,6 @@ import com.example.resp.TestResponse;
 import com.example.service.TestService;
 import com.example.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -19,9 +18,6 @@ import java.util.List;
 public class TestServiceImpl implements TestService {
     @Autowired
     private UserInfoMapper userInfoMapper;
-
-    @Value("${spring.datasource.user.url}")
-    private String value;
 
     @Override
     public Result<TestResponse> hello(TestRequest request) {
