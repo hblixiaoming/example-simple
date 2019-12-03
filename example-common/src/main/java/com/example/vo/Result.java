@@ -15,6 +15,8 @@ public class Result<T> implements Serializable {
 
     private T bean;
 
+    public static final Result<Void> SUCCESSED = success();
+
     public Result() {
 
     }
@@ -32,6 +34,10 @@ public class Result<T> implements Serializable {
         this.message = message;
     }
 
+
+    public static <T> Result<T> success() {
+        return new Result<>(0, "0000", "success");
+    }
 
     public String getMessage() {
         return message;
@@ -65,4 +71,7 @@ public class Result<T> implements Serializable {
         this.msgCode = msgCode;
     }
 
+    public static <T> Result<T> fail(String message) {
+        return new Result<>(-1,"9999", message);
+    }
 }
