@@ -66,10 +66,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-amqp</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -120,6 +120,17 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <executions>
@@ -146,10 +157,14 @@
 
     <profiles>
         <profile>
-            <id>local</id>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <properties>
+                <profiles.active>dev</profiles.active>
                 <config.url>http://localhost:1201/</config.url>
-                <config.branch>master</config.branch>
+                <config.branch>dev</config.branch>
             </properties>
             <build>
                 <resources>
@@ -158,7 +173,6 @@
                         <includes>
                             <include>**/*</include>
                         </includes>
-                        <!-- 注意默认的fitler delimeter 被修改为了 @var@ -->
                         <filtering>true</filtering>
                     </resource>
                 </resources>
@@ -166,9 +180,13 @@
         </profile>
         <profile>
             <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
+                <profiles.active>test</profiles.active>
                 <config.url>http://localhost:1201/</config.url>
-                <config.branch>master</config.branch>
+                <config.branch>test</config.branch>
             </properties>
             <build>
                 <resources>
@@ -177,7 +195,6 @@
                         <includes>
                             <include>**/*</include>
                         </includes>
-                        <!-- 注意默认的fitler delimeter 被修改为了 @var@ -->
                         <filtering>true</filtering>
                     </resource>
                 </resources>
@@ -185,9 +202,13 @@
         </profile>
         <profile>
             <id>production</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <properties>
+                <profiles.active>production</profiles.active>
                 <config.url>http://localhost:1201/</config.url>
-                <config.branch>master</config.branch>
+                <config.branch>production</config.branch>
             </properties>
             <build>
                 <resources>
@@ -196,7 +217,6 @@
                         <includes>
                             <include>**/*</include>
                         </includes>
-                        <!-- 注意默认的fitler delimeter 被修改为了 @var@ -->
                         <filtering>true</filtering>
                     </resource>
                 </resources>
